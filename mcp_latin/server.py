@@ -30,7 +30,7 @@ _INSTRUCTIONS = (
 
     "For reported speech detection, first use parser to obtain CoNLL-U output. "
     "Then use prepare_latin_input to obtain a prepared_id. "
-    "Then use detect_reported_speech with that prepared_id. "
+    "Then use detect_reported_speech_from_text with that prepared_id. "
 
     "Use get_lila_lemma_info to query the LiLa Knowledge Base for lexical information about a lemma from a token form. "
 
@@ -320,7 +320,8 @@ async def prepare_latin_input(
     conllu_output: str,
     ctx: Context
 ) -> PreparedInput:
-    """Convert UDPipe CoNLL-U output into model-ready input."""
+    """Convert UDPipe CoNLL-U output into model-ready input (not to be used in MCP inspector).
+    Use the output of `parser` as input to this tool."""
 
     rows = parse_conllu(conllu_output)
 
@@ -423,25 +424,10 @@ def get_model():
 
     return model_package
 
-
-@mcp.tool(annotations={"readOnlyHint": True})
-async def detect_reported_speech(
-    prepared_id: str,
-    ctx: Context
+def run_reported_speech_detection(
+    prepared_input: PreparedInput
 ) -> PrepareOutput:
-    """Run reported speech detection on an already prepared Latin input."""
-
-    await ctx.info("Running reported speech detection from prepared_id.")
-
-
-
-    prepared_input = prepared_store.get(prepared_id)
-
-    if prepared_input is None:
-        raise ToolError(f"No prepared input found for id: {prepared_id}")
-    
     tokenizer, model, lemma2id, pos2id = get_model()
-
 
     tokens = prepared_input.tokens
     lemmas = prepared_input.lemmas
@@ -455,7 +441,6 @@ async def detect_reported_speech(
         truncation=True,
         max_length=512,
     )
-    
 
     word_ids = enc.word_ids(batch_index=0)
 
@@ -467,7 +452,6 @@ async def detect_reported_speech(
         lemma2id,
         pos2id,
     )
-
 
     inputs = {
         **enc,
@@ -502,9 +486,26 @@ async def detect_reported_speech(
 
     prediction_store[prediction.prediction_id] = prediction
 
-
     return prediction
 
+
+@mcp.tool(annotations={"readOnlyHint": True})
+async def detect_reported_speech_from_text(
+    text: str,
+    ctx: Context
+) -> PrepareOutput:
+    """Run the full reported speech detection pipeline directly from raw Latin text."""
+
+    await ctx.info("Running full reported speech detection pipeline from raw text.")
+
+    conllu_output = call_udpipe_api(text)
+
+    prepared_input = await prepare_latin_input(
+        conllu_output=conllu_output,
+        ctx=ctx,
+    )
+
+    return run_reported_speech_detection(prepared_input)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -786,7 +787,7 @@ async def export_lila_lemma_tokens_csv(
     for row in output.rows
     ])
 
-    safe_name = normalize_lila_lemma(lemma)
+    safe_name = normalize_lila_lemma(output.lemma)
 
     csv_path = f"/tmp/{safe_name}_lila_tokens.csv"
 

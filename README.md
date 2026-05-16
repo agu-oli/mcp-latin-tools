@@ -27,7 +27,7 @@ The tools are designed to be used sequentially, but may also be used independent
 --------------------------------------------------------------------------------------------------------|
 | `tokenize_latin_text`             | Tokenize Latin text with sentence splitting and enclitic handling |
 | `parser`                          | Morphological analysis and preprocessing using UDPipe             |
-| `detect_reported_speech`          | Transformer-based reported speech detection                       |
+| `detect_reported_speech_from_text`          | Transformer-based reported speech detection                       |
 | `get_lila_lemma_info`             | Query the LiLa Knowledge Base for lemma information               |
 | `get_lila_lemma_tokens_dataframe` | Retrieve LiLa corpus token occurrences and count attestations per work |
 | `export_lila_lemma_tokens_csv`    | Export LiLa corpus token occurrences as a CSV file |
