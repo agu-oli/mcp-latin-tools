@@ -143,14 +143,32 @@ class LilaCSVExport(BaseModel):
 # Sparql code is difficult. 
 # The tool is designed to run a general SPARQL query to get various information about a lemma.
 
+# 4. LiLa Corpus Attestation Retrieval
+
+# `get_lila_lemma_tokens_dataframe` tool retrieves corpus attestations linked to a Latin lemma in the LiLa Knowledge Base.
+# retrieves :
+# - token occurrences associated with a lemma
+# - token URIs
+# - work titles
+# computes occurrence frequencies per work
+# structures results as a dataframe output
+
+# 5. LiLa CSV Export
+
+# `export_lila_lemma_tokens_csv` tool exports LiLa corpus attestation results as a CSV file.
+
+# Exported CSV includes:
+
+# - token forms
+# - token URIs
+# - work titles
 
 # The tools are designed to be used in sequence, but they can also be used independently.
-
-
 # Prompts suggestions in the readme file.
 
 # ══════════════════════════════════════════════════════════════════════════════
-
+# TOKENIZATION TOOL
+# ══════════════════════════════════════════════════════════════════════════════
 
 
 def is_non_finite_verb(upos: str, feats: str) -> int:
@@ -166,8 +184,6 @@ def is_non_finite_verb(upos: str, feats: str) -> int:
 
 model = "latin-evalatin24-240520"
 base_url = "https://lindat.mff.cuni.cz/services/udpipe/api"
-
-
 
 @mcp.tool(annotations={"readOnlyHint": True})
 async def tokenize_latin_text(
@@ -218,7 +234,12 @@ async def tokenize_latin_text(
             )
         )
 
-    return TokenizationResult(sentences=sentences)        
+    return TokenizationResult(sentences=sentences)      
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PARSER AND PREPARE INPUT FOR REPORTED SPEECH DETECTIONS TOOLS
+# ══════════════════════════════════════════════════════════════════════════════
+
 
 
 def call_udpipe_api(text: str, model = model, base_url = base_url) -> str:
@@ -323,6 +344,10 @@ async def prepare_latin_input(
     prepared_store[prepared_input.prepared_id] = prepared_input # Store this value under prepared_id.
 
     return prepared_input 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# REPORTED SPEECH DETECTOR
+# ══════════════════════════════════════════════════════════════════════════════
 
 
 def align(lemmas, pos, nfv, word_ids, lemma2id, pos2id):
