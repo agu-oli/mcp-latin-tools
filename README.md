@@ -273,5 +273,5 @@ for details.
 # Notes
 
 - UDPipe requests require internet access.
-- Hugging Face model weights are downloaded automatically on first inference.
+- Hugging Face model weights are downloaded automatically.
 - The server is designed for MCP-compatible clients such as Claude Desktop and VS Code MCP integration.
