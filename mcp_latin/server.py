@@ -237,7 +237,7 @@ async def tokenize_latin_text(
     return TokenizationResult(sentences=sentences)      
 
 # ══════════════════════════════════════════════════════════════════════════════
-# PARSER AND PREPARE INPUT FOR REPORTED SPEECH DETECTIONS TOOLS
+# PARSER AND PREPARE INPUT FOR REPORTED SPEECH DETECTION TOOLS
 # ══════════════════════════════════════════════════════════════════════════════
 
 
