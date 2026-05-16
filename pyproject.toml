@@ -16,6 +16,7 @@ dependencies = [
     "transformers",
     "huggingface-hub",
     "safetensors",
+    "pytz>=2026.2",
 ]
 
 [project.scripts]
