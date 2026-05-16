@@ -1,0 +1,28 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# Credentials & secrets
+.env
+credentials/*.json
+!credentials/README.md
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# HuggingFace / model cache (optional)
+.cache/
+huggingface/
+
+# Editor / OS
+.DS_Store
+*.swp
+.vscode/settings.json
