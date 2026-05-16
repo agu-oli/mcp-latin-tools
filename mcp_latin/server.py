@@ -306,8 +306,6 @@ async def parser(
     Morphological analysis and preparation of Latin text for reported speech detection:
     tokenization, lemmatization, POS tagging, morphology, syntax,
     and non-finite verb detection.
-    It prepares Latin text for the subsquent reported speech detection:
-
     """
 
     await ctx.info("Parsing Latin input with UDPipe.")
