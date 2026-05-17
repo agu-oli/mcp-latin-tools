@@ -209,7 +209,7 @@ http://localhost:8001/mcp
 
 ```text
 Use the MCP tool tokenize_latin_text on:
-"Senatus populusque Romanus."
+Senatus populusque Romanus.
 ```
 
 ---
@@ -218,7 +218,7 @@ Use the MCP tool tokenize_latin_text on:
 
 ```
 Use the MCP tool parser on:
-"Non potui, inquit, sustinere illud durum spectaculum."
+Non potui, inquit, sustinere illud durum spectaculum.
 ```
 
 ---
@@ -229,7 +229,7 @@ Use the MCP tool parser on:
 Use the Latin MCP tools only.
 
 1. Parse:
-"HISPO ROMANIUS alio colore dixit illam non amore adulescentis sed odio patris sui secutam"
+HISPO ROMANIUS alio colore dixit illam non amore adulescentis sed odio patris sui secutam
 
 2. Detect reported speech.
 
