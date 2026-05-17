@@ -21,17 +21,18 @@ The tools are designed to be used sequentially, but may also be used independent
 
 ---
 
-# Tools
 
-| Tool                              | Description |
---------------------------------------------------------------------------------------------------------|
-| `tokenize_latin_text`             | Tokenize Latin text with sentence splitting and enclitic handling |
-| `parser`                          | Morphological analysis and preprocessing using UDPipe             |
-| `detect_reported_speech_from_text`          | Transformer-based reported speech detection                       |
-| `get_lila_lemma_info`             | Query the LiLa Knowledge Base for lemma information               |
-| `get_lila_lemma_tokens_dataframe` | Retrieve LiLa corpus token occurrences and count attestations per work |
-| `export_lila_lemma_tokens_csv`    | Export LiLa corpus token occurrences as a CSV file |
+## Available Tools
 
+| Tool | NLP Task | Description |
+|---|---|---|
+| `tokenize_latin_text` | Tokenization | Latin sentence splitting and enclitic `-que` handling |
+| `parser` | Morphology & Syntax | UDPipe-based tokenization, lemmatization, POS tagging, morphological analysis, and dependency parsing (CoNLL-U output) |
+| `prepare_latin_input` | Preprocessing | Convert CoNLL-U parser output into model-ready input for downstream tasks |
+| `detect_reported_speech_from_text` | Sequence Labeling | Transformer-based reported speech detection for Latin texts (fine-tuned Latin LaBerta) |
+| `get_lila_lemma_info` | Knowledge Base Query | Retrieve lexical and morphological information from the LiLa Knowledge Base |
+| `get_lila_lemma_tokens_dataframe` | Corpus Retrieval | Retrieve corpus attestations and occurrence counts for a lemma |
+| `export_lila_lemma_tokens_csv` | Export | Export LiLa corpus attestations as CSV |
 
 
 # 1. Latin NLP Parsing Pipeline
@@ -180,7 +181,7 @@ uv run python -m mcp_latin -vv
 
 The MCP server will run at:
 
-```text
+```
 http://localhost:8001/mcp
 ```
 
@@ -196,7 +197,7 @@ npx @modelcontextprotocol/inspector
 
 Then connect Inspector to:
 
-```text
+```
 http://localhost:8001/mcp
 ```
 
@@ -215,7 +216,7 @@ Use the MCP tool tokenize_latin_text on:
 
 ## Parsing
 
-```text
+```
 Use the MCP tool parser on:
 "Non potui, inquit, sustinere illud durum spectaculum."
 ```
@@ -256,15 +257,11 @@ Use the MCP tool get occurrences of the on the lemma "probabilis" and export the
 
 A reproducible VS Code devcontainer is included in:
 
-```text
 .devcontainer/
-```
 
 See:
 
-```text
 .devcontainer/README.md
-```
 
 for details.
 
